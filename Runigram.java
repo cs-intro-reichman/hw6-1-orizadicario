@@ -35,12 +35,16 @@ public class Runigram {
 		in.readInt();
 		// Creates the image array
 		Color[][] image = new Color[numRows][numCols];
-		// Reads the RGB values from the file into the image array. 
-		// For each pixel (i,j), reads 3 values from the file,
-		// creates from the 3 colors a new Color object, and 
-		// makes pixel (i,j) refer to that object.
-		//// Replace the following statement with your code.
-		return null;
+		    for (int i = 0; i < numRows; i++) {
+                for (int j = 0; j < numCols; j++) {
+                    int red = in.readInt();
+                    int green = in.readInt();
+                    int blue = in.readInt();
+                    image[i][j] = new Color(red, green, blue);
+            }
+        }
+        
+        return image;
 	}
 
     // Prints the RGB values of a given color.
@@ -179,8 +183,17 @@ public class Runigram {
 	 * The two images must have the same dimensions.
 	 */
 	public static Color[][] blend(Color[][] image1, Color[][] image2, double alpha) {
-		//// Replace the following statement with your code
-		return null;
+		int rows = image1.length;
+        int cols = image1[0].length;
+    
+        Color[][] newImage = new Color[rows][cols];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                newImage[i][j] = blend(image1[i][j], image2[i][j], alpha);
+        }
+    }
+       return newImage;
 	}
 
 	/**
@@ -190,7 +203,17 @@ public class Runigram {
 	 * of the source image.
 	 */
 	public static void morph(Color[][] source, Color[][] target, int n) {
-		//// Replace this comment with your code
+		int rows = source.length;
+        int cols = source[0].length;
+    
+        Color[][] target2 = scaled(target, cols, rows);
+    
+        for (int i = 0; i <= n; i++) {
+            double x = (double) (n - i) / n;
+            Color[][] image = blend(source, target2, x);
+            Runigram.display(image);
+            StdDraw.pause(500); 
+    }
 	}
 	
 	/** Creates a canvas for the given image. */
